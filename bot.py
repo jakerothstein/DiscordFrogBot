@@ -1,10 +1,11 @@
 import random
+import hikari
 import requests
 import lightbulb
 
 
 def random_frog_gif(search):
-    giphy_api_key = 'API KEY'
+    giphy_api_key = ''  # API KEY
     headers = {
         'limit': 50,
         'lang': 'en'
@@ -19,7 +20,7 @@ def random_frog_gif(search):
 
 
 bot = lightbulb.BotApp(
-    token='DISCORD BOT TOKEN'
+    token=''  # DISCORD BOT TOKEN
 )
 
 
@@ -46,6 +47,12 @@ async def pic(ctx):
 @lightbulb.implements(lightbulb.SlashCommand)
 async def pic(ctx):
     await ctx.respond(random_frog_gif('frog meme'))
+
+
+@bot.listen(hikari.MessageCreateEvent)
+async def react(ctx):
+    if ctx.content.lower().find("frog") != -1:
+        await ctx.message.add_reaction("🐸")
 
 
 bot.run()
