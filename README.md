@@ -19,3 +19,6 @@ Returns a gif of a frog
 > 
 Returns a gif of a meme frog (most of the time)
 
+> /pepe
+> 
+Returns a gif or jpg from Pepe Wisdom
