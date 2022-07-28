@@ -26,3 +26,7 @@ Returns a gif or jpg from Pepe Wisdom
 > /frog-quote
 > 
 Returns a frog themed quote from Goodreads
+
+> /frog-definition
+> 
+Returns the definition of a frog
