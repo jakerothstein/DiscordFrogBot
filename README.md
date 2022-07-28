@@ -3,6 +3,8 @@
  
  You need to input a giphy API key and also a token for your discord bot
 
+## Commands
+
 > /frog-pic
 > 
 Returns a photo of a frog
