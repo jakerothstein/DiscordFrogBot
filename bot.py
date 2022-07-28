@@ -107,4 +107,14 @@ async def pic(ctx):
     await ctx.respond(quote_text)
 
 
+@bot.command
+@lightbulb.command('frog-definition', 'Returns the definition of a frog')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def pic(ctx):
+    resp = "**Frog** /frôg; fräg/\n*noun*\n> a tailless amphibian with a short squat body, moist smooth skin, " \
+           "and very long hind legs for leaping.\n*verb*\n> hunt for or catch frogs. "
+
+    await ctx.respond(resp)
+
+
 bot.run()
