@@ -22,3 +22,7 @@ Returns a gif of a meme frog (most of the time)
 > /pepe
 > 
 Returns a gif or jpg from Pepe Wisdom
+
+> /frog-quote
+> 
+Returns a frog themed quote from Goodreads
