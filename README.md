@@ -1,0 +1,2 @@
+# DiscordFrogBot
+ Because why not
