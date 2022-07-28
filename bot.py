@@ -11,10 +11,33 @@ bot = lightbulb.BotApp(
 )
 
 
+def get_frog_quote():
+    url = 'https://www.goodreads.com/quotes/tag/frogs'
+
+    response = requests.get(url)
+
+    data = BeautifulSoup(response.text, 'html.parser')
+
+    quoteText = data.find_all('div', attrs={'class': 'quoteText'})
+
+    quotes = []
+    authors = []
+
+    for i in quoteText:
+        quote = i.text.strip().split('\n')[0]
+        quotes += [quote]
+        author = i.find('span', attrs={'class': 'authorOrTitle'}).text.strip()
+        author = author[:len(author) - 1]
+        authors += [author]
+
+    i = random.randint(0, len(quotes))
+    return [quotes[i], authors[i]]
+
+
 def get_pepe():
     url = 'https://pepewisdom.com/pwrandom'  # 147 pages
 
-    response = requests.get('https://pepewisdom.com/pwrandom')
+    response = requests.get(url)
 
     data = BeautifulSoup(response.text, 'html.parser')
     parsed = data.find("img", src=True)["src"]
@@ -63,8 +86,9 @@ async def pic(ctx):
 
 @bot.listen(hikari.MessageCreateEvent)
 async def react(ctx):
-    if ctx.content.lower().find("frog") != -1:
-        await ctx.message.add_reaction("🐸")
+    if ctx.author.id != 1001966977708986519:
+        if ctx.content.lower().find("frog") != -1:
+            await ctx.message.add_reaction("🐸")
 
 
 @bot.command
@@ -72,6 +96,15 @@ async def react(ctx):
 @lightbulb.implements(lightbulb.SlashCommand)
 async def pic(ctx):
     await ctx.respond(get_pepe())
+
+
+@bot.command
+@lightbulb.command('frog-quote', 'Returns a random frog themed quote')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def pic(ctx):
+    resp = get_frog_quote()
+    quote_text = '*> {}*'.format(resp[0]) + '- ' + resp[1]
+    await ctx.respond(quote_text)
 
 
 bot.run()
