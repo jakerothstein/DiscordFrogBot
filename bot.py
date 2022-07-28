@@ -10,6 +10,36 @@ bot = lightbulb.BotApp(
     token=''  # DISCORD BOT TOKEN
 )
 
+list_of_frogs = ["Leiopelmatidae", "Ascaphidae", "Bombianura", "Costata", "Bombinatoridae", "Alytidae",
+                 "Discoglossidae", "Pipanura", "Xenoanura", "Pipidae", "Rhinophrynidae", "Acosmanura", "Anomocoela",
+                 "Scaphiopodidae", "Pelodytidae", "Pelobatoidea", "Pelobatidae", "Megophryidae", "Neobatrachia",
+                 "Heleophrynidae", "Phthanobatrachia", "Sooglossoidea", "Sooglossidae", "Nasikabatrachidae",
+                 "Notogaeanura", "Australobatrachia", "Calyptocephalellidae", "Myobatrachidae", "Limnodynastidae",
+                 "Nobleoanura", "Brachycephaloidea", "Ceuthomantidae", "Brachycephalidae", "Eleutherodactylidae",
+                 "Craugastoridae", "Hemiphractidae", "Athesphatanura", "Hylidae", "Leptodactyliformes",
+                 "Agastorophrynia", "Bufonidae", "Aromobatidae", "Dendrobatidae", "Diphyabatracea",
+                 "Leptodactylidae", "Allophrynidae", "Centrolenidae", "Ceratophryidae", "Odontophrynidae",
+                 "Cycloramphidae", "Alsodidae", "Hylodidae", "Telmatobiidae", "Batrachylidae", "Rhinodermatidae",
+                 "Ranoides", "Allodapanura", "Microhylidae", "Afrobatrachia", "Xenosyneunitanura", "Brevicipitidae",
+                 "Hemisotidae", "Laurentobatrachia", "Hyperoliidae", "Arthroleptidae", "Natatanura",
+                 "Ptychadenidae", "Victoranura", "Micrixalidae", "Phrynobatrachidae", "Conrauidae",
+                 "Pyxicephaloidea", "Petropedetidae", "Pyxicephalidae", "Nyctibatrachidae", "Ceratobatrachidae",
+                 "Saukrobatrachia", "Ranixalidae", "Dicroglossidae", "Aglaioanura", "Rhacophoridae", "Mantellidae",
+                 "Ranidae"]
+
+
+def get_random_frog():
+    randFrog = list_of_frogs[random.randint(0, len(list_of_frogs) - 1)]
+    url = 'https://www.google.com/search?q=' + randFrog + '+frog&source=lnms&tbm=isch'
+
+    response = requests.get(url)
+
+    data = BeautifulSoup(response.text, 'html.parser')
+
+    imageURL = data.find('img', attrs={'class': 'yWs4tf'})['src']
+
+    return [str(imageURL), str(randFrog)]
+
 
 def get_frog_quote():
     url = 'https://www.goodreads.com/quotes/tag/frogs'
@@ -113,8 +143,17 @@ async def pic(ctx):
 async def pic(ctx):
     resp = "**Frog** /frôg; fräg/\n*noun*\n> a tailless amphibian with a short squat body, moist smooth skin, " \
            "and very long hind legs for leaping.\n*verb*\n> hunt for or catch frogs. "
-
     await ctx.respond(resp)
 
+
+@bot.command
+@lightbulb.command('random-frog', 'Returns a random frog')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def pic(ctx):
+    resp = get_random_frog()
+    embed = hikari.Embed(title="Random Frog", description="Scientific Name: " + resp[1], color=0x59c332)
+    embed.set_thumbnail(resp[0])
+    embed.set_footer(text="Frog photo from Google")
+    await ctx.respond(embed=embed)
 
 bot.run()
