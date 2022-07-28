@@ -2,10 +2,27 @@ import random
 import hikari
 import requests
 import lightbulb
+from bs4 import BeautifulSoup
+
+giphy_api_key = ''  # API KEY
+
+bot = lightbulb.BotApp(
+    token=''  # DISCORD BOT TOKEN
+)
 
 
-def random_frog_gif(search):
-    giphy_api_key = ''  # API KEY
+def get_pepe():
+    url = 'https://pepewisdom.com/pwrandom'  # 147 pages
+
+    response = requests.get('https://pepewisdom.com/pwrandom')
+
+    data = BeautifulSoup(response.text, 'html.parser')
+    parsed = data.find("img", src=True)["src"]
+
+    return 'https://pepewisdom.com/' + parsed
+
+
+def random_gif(search):
     headers = {
         'limit': 50,
         'lang': 'en'
@@ -17,11 +34,6 @@ def random_frog_gif(search):
     parsed = response.json()
 
     return parsed['data'][random.randint(0, 49)]['embed_url']
-
-
-bot = lightbulb.BotApp(
-    token=''  # DISCORD BOT TOKEN
-)
 
 
 @bot.command
@@ -39,20 +51,27 @@ async def pic(ctx):
 @lightbulb.command('frog-gif', 'Returns a random gif of a cool frog using a giphy API')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def pic(ctx):
-    await ctx.respond(random_frog_gif('frogs'))
+    await ctx.respond(random_gif('frogs'))
 
 
 @bot.command
 @lightbulb.command('frog-gif-meme', 'Returns a random gif of a cool frog meme using a giphy API')
 @lightbulb.implements(lightbulb.SlashCommand)
 async def pic(ctx):
-    await ctx.respond(random_frog_gif('frog meme'))
+    await ctx.respond(random_gif('frog meme'))
 
 
 @bot.listen(hikari.MessageCreateEvent)
 async def react(ctx):
     if ctx.content.lower().find("frog") != -1:
         await ctx.message.add_reaction("🐸")
+
+
+@bot.command
+@lightbulb.command('pepe', 'Returns a random image or gif of a pepe')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def pic(ctx):
+    await ctx.respond(get_pepe())
 
 
 bot.run()
