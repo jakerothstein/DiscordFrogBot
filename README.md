@@ -34,3 +34,7 @@ Returns the definition of a frog
 > /random-frog
 > 
 Returns a random frog using google image search
+
+> /frog-gang
+> 
+Gives user the frog gang role (🐸 frog gang 🐸)
