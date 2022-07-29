@@ -25,7 +25,7 @@ list_of_frogs = ["Leiopelmatidae", "Ascaphidae", "Bombianura", "Costata", "Bombi
                  "Ptychadenidae", "Victoranura", "Micrixalidae", "Phrynobatrachidae", "Conrauidae",
                  "Pyxicephaloidea", "Petropedetidae", "Pyxicephalidae", "Nyctibatrachidae", "Ceratobatrachidae",
                  "Saukrobatrachia", "Ranixalidae", "Dicroglossidae", "Aglaioanura", "Rhacophoridae", "Mantellidae",
-                 "Ranidae"]
+                 "Ranidae"]  # source: https://en.wikipedia.org/wiki/Frog
 
 
 def get_random_frog():
@@ -76,10 +76,6 @@ def get_pepe():
 
 
 def random_gif(search):
-    headers = {
-        'limit': 50,
-        'lang': 'en'
-    }
 
     url = 'https://api.giphy.com/v1/gifs/search?q=' + search + '+&api_key=' + giphy_api_key
 
@@ -155,5 +151,34 @@ async def pic(ctx):
     embed.set_thumbnail(resp[0])
     embed.set_footer(text="Frog photo from Google")
     await ctx.respond(embed=embed)
+
+
+@bot.command
+@lightbulb.command('frog-gang', 'gives frog gang role')
+@lightbulb.implements(lightbulb.SlashCommand)
+async def add_role(ctx):
+    roles = await bot.rest.fetch_roles(guild=ctx.guild_id)
+
+    role_add = True
+    id_index = int
+    for i in range(len(roles)):
+        if str(roles[i]) == "🐸 frog gang 🐸":
+            role_add = False
+            id_index = i
+    if role_add:
+        role = await bot.rest.create_role(
+            ctx.guild_id,
+            name="🐸 frog gang 🐸",
+            color=0x59c332
+        )
+        await bot.rest.add_role_to_member(user=ctx.author, guild=ctx.guild_id, role=role)
+    else:
+        await bot.rest.add_role_to_member(user=ctx.author, guild=ctx.guild_id, role=roles[id_index].id)
+    resp = "<@" + str(ctx.author.id) + ">" + " is now part of the frog gang"
+    await ctx.respond(resp)
+
+    # resp += str()
+    # await ctx.respond(ctx.author.id.fetch_roles(guild=ctx.guild_id))
+
 
 bot.run()
