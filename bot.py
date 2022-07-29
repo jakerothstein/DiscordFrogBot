@@ -159,22 +159,33 @@ async def pic(ctx):
 async def add_role(ctx):
     roles = await bot.rest.fetch_roles(guild=ctx.guild_id)
 
+    create_role = True
     role_add = True
     id_index = int
+
     for i in range(len(roles)):
         if str(roles[i]) == "🐸 frog gang 🐸":
-            role_add = False
+            create_role = False
             id_index = i
-    if role_add:
+    if create_role:
         role = await bot.rest.create_role(
             ctx.guild_id,
             name="🐸 frog gang 🐸",
             color=0x59c332
         )
         await bot.rest.add_role_to_member(user=ctx.author, guild=ctx.guild_id, role=role)
+        resp = "<@" + str(ctx.author.id) + ">" + " is now part of the frog gang  🎉"
+        await ctx.respond(resp)
+        return
     else:
+        for i in range(len(ctx.member.role_ids)):
+            if str(ctx.member.role_ids[i]) == str(roles[id_index].id):
+                role_add = False
+    if role_add:
         await bot.rest.add_role_to_member(user=ctx.author, guild=ctx.guild_id, role=roles[id_index].id)
-    resp = "<@" + str(ctx.author.id) + ">" + " is now part of the frog gang"
+        resp = "<@" + str(ctx.author.id) + ">" + " is now part of the frog gang  🎉"
+    else:
+        resp = "<@" + str(ctx.author.id) + ">" + " is already part of the frog gang 💪"
     await ctx.respond(resp)
 
     # resp += str()
