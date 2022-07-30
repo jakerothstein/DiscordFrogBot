@@ -4,10 +4,10 @@ import requests
 import lightbulb
 from bs4 import BeautifulSoup
 
-giphy_api_key = 'qwFFSLDhGoPgbVLqHfk2pvabFopF8K9u'  # API KEY
+giphy_api_key = ''  # API KEY
 
 bot = lightbulb.BotApp(
-    token='MTAwMTk2Njk3NzcwODk4NjUxOQ.G-dkY4.Nt97IBnFqqRJdWZnYgg4f_YVip6iJUqCcXx0Wk'  # DISCORD BOT TOKEN
+    token=''  # DISCORD BOT TOKEN
 )
 
 list_of_frogs = ["Leiopelmatidae", "Ascaphidae", "Bombianura", "Costata", "Bombinatoridae", "Alytidae",
