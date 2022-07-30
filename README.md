@@ -38,3 +38,7 @@ Returns a random frog using google image search
 > /frog-gang
 > 
 Gives user the frog gang role (🐸 frog gang 🐸)
+
+> /random-frog
+> 
+Returns a fun frog fact and shows a cool photo from Unsplash
