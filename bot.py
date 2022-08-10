@@ -136,7 +136,7 @@ def random_gif(search):
 @bot.command
 @lightbulb.command('frog-pic', 'Returns a random photo of a cool frog using a frog photo API')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_pic(ctx):
     rand = str(random.randint(1, 54))
     if len(rand) < 2:
         rand = '0' + rand
@@ -147,19 +147,19 @@ async def pic(ctx):
 @bot.command
 @lightbulb.command('frog-gif', 'Returns a random gif of a cool frog using a giphy API')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_gif(ctx):
     await ctx.respond(random_gif('frogs'))
 
 
 @bot.command
 @lightbulb.command('frog-gif-meme', 'Returns a random gif of a cool frog meme using a giphy API')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_meme(ctx):
     await ctx.respond(random_gif('frog meme'))
 
 
 @bot.listen(hikari.MessageCreateEvent)
-async def react(ctx):
+async def frog_react(ctx):
     if ctx.author.id != 1001966977708986519:
         if ctx.content.lower().find("frog") != -1:
             await ctx.message.add_reaction("🐸")
@@ -168,14 +168,14 @@ async def react(ctx):
 @bot.command
 @lightbulb.command('pepe', 'Returns a random image or gif of a pepe')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_pepe(ctx):
     await ctx.respond(get_pepe())
 
 
 @bot.command
 @lightbulb.command('frog-quote', 'Returns a random frog themed quote')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_quote(ctx):
     resp = get_frog_quote()
     quote_text = '*> {}*'.format(resp[0]) + '- ' + resp[1]
     await ctx.respond(quote_text)
@@ -184,7 +184,7 @@ async def pic(ctx):
 @bot.command
 @lightbulb.command('frog-definition', 'Returns the definition of a frog')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_def(ctx):
     embed = hikari.Embed(title="Frog Definition",
                          description="**Frog** /frôg; fräg/\n*noun*\n> a tailless amphibian with a short squat body, moist smooth skin, " \
                                      "and very long hind legs for leaping.\n*verb*\n> hunt for or catch frogs.",
@@ -196,10 +196,10 @@ async def pic(ctx):
 @bot.command
 @lightbulb.command('random-frog', 'Returns a random frog')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def rand_frog(ctx):
     resp = get_random_frog()
     embed = hikari.Embed(title="Random Frog", description="Scientific Name: " + resp[1], color=0x59c332)
-    embed.set_thumbnail(resp[0])
+    embed.set_image(resp[0])
     embed.set_footer(text="Frog photo from Google")
     await ctx.respond(embed=embed)
 
@@ -243,11 +243,11 @@ async def add_role(ctx):
 @bot.command
 @lightbulb.command('frog-fact', 'Returns a cool frog fact')
 @lightbulb.implements(lightbulb.SlashCommand)
-async def pic(ctx):
+async def frog_fact(ctx):
     fact = list_of_frog_facts[random.randint(0, len(list_of_frog_facts) - 1)]
     frog_img = get_high_rez_frog()
     embed = hikari.Embed(title="Frog Fact", description=fact + "\n\nImage Caption: " + frog_img[1], color=0x59c332)
-    embed.set_thumbnail(frog_img[0])
+    embed.set_image(frog_img[0])
     embed.set_footer(text="Frog photo from Unsplash")
     await ctx.respond(embed=embed)
 
